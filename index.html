@@ -29,31 +29,7 @@ function payWithPaystack() {
   });
 }
 </script>
- <div class="momo-payment-card">
-  <h3>📱 Mobile Money Payment</h3>
 
-  <div class="form-group">
-    <select id="momo-network" class="momo-input">
-      <option value="MTN">MTN MoMo</option>
-      <option value="Telecel">Telecel Cash</option>
-      <option value="AT">AT Money</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <input 
-      type="tel" 
-      id="momo-phone" 
-      class="momo-input" 
-      placeholder="Enter MoMo Number (e.g. 054XXXXXXX)"
-      required
-    />
-  </div>
-
-  <button type="button" class="pay-btn" onclick="payWithPaystack()">
-    Authorize & Pay Now
-  </button>
-</div>
 
 </body>
 </html>
@@ -202,6 +178,62 @@ function payWithPaystack() {
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 2000; }
         .modal-content { background: white; padding: 2rem; border-radius: 8px; text-align: center; max-width: 400px; width: 90%; }
         .success-icon { font-size: 3rem; color: var(--secondary); margin-bottom: 1rem; }
+        /* Card Container */
+.momo-payment-card {
+  max-width: 450px;
+  margin: 40px auto 20px auto; /* Centers the card near the bottom of the page */
+  padding: 24px;
+  background-color: #fcfbdf; /* Matches light yellow/cream background */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: sans-serif;
+}
+
+.momo-payment-card h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #bfa100; /* Warm gold heading color */
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Form Controls */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.momo-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  background-color: #f7f9fc;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.momo-input:focus {
+  border-color: #10a342;
+}
+
+/* Green Pay Button */
+.pay-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #10a342; /* Paystack green */
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pay-btn:hover {
+  background-color: #0e8a37;
+}
     </style>
 </head>
 <body>
