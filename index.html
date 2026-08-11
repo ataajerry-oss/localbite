@@ -4,25 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Local Bites | Delicious Food Delivery</title>
-  <style>
-    /* Styled Pay Button */
-    .btn-pay {
-      background-color: #09d261;
-      color: #ffffff;
-      padding: 12px 24px;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      display: inline-block;
-      transition: background-color 0.2s ease;
-    }
-
-    .btn-pay:hover {
-      background-color: #07b051;
-    }
-  </style>
+  
 </head>
 <body>
 
@@ -54,6 +36,30 @@
       });
     }
   </script>
+    <!-- Load Paystack JS SDK -->
+<script src="https://js.paystack.co/v2/inline.js"></script>
+
+<button type="button" onclick="payWithPaystack()">Authorize and Pay</button>
+
+<script>
+function payWithPaystack() {
+  const paystack = new PaystackPop();
+
+  paystack.resumeTransaction("ACCESS_CODE_FROM_YOUR_BACKEND", {
+    onSuccess: (transaction) => {
+      // Prompt approved on phone, payment succeeded
+      console.log("Transaction reference:", transaction.reference);
+      alert("Payment successful! Reference: " + transaction.reference);
+    },
+    onCancel: () => {
+      alert("Transaction was cancelled.");
+    },
+    onError: (error) => {
+      alert("Error: " + error.message);
+    }
+  });
+}
+</script>
 </body>
 </html>
     <style>
