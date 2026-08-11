@@ -30,8 +30,9 @@ function payWithPaystack() {
     }
   });
 }
-    <div>
-  <button type="button" class="pay-btn" onclick="payWithPaystack()">
+   <div class="payment-container">
+  <!-- Authorize & Pay Button -->
+  <button type="button" class="btn btn-pay" onclick="redirectToPaystack()">
     Authorize & Pay Now
   </button>
 </div>
@@ -223,7 +224,7 @@ function payWithPaystack() {
             </div>
 
             <!-- MoMo Payment Section -->
-            <div class="momo-section" id="momo-checkout" style="display: block;">
+            <div class="momo-section" id="momo-checkout" style="display: none;">
                 <div class="momo-title">📱 Mobile Money Payment</div>
                 <select class="select-field" id="momo-network">
                     <option value="MTN">MTN MoMo</option>
