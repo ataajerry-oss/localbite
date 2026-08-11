@@ -29,7 +29,11 @@ function payWithPaystack() {
   });
 }
 </script>
-    <button type="button" onclick="payWithPaystack()">Authorize & Pay Now</button>
+   <div class="checkout-container">
+  <button type="button" id="pay-btn" onclick="payWithPaystack()">
+    Authorize & Pay Now
+  </button>
+</div>
     <style>
         :root {
             --primary: #ff5722;
