@@ -35,31 +35,7 @@
         }
       });
     }
-  </script>
-    <!-- Load Paystack JS SDK -->
-<script src="https://js.paystack.co/v2/inline.js"></script>
 
-<button type="button" onclick="payWithPaystack()">Authorize and Pay</button>
-
-<script>
-function payWithPaystack() {
-  const paystack = new PaystackPop();
-
-  paystack.resumeTransaction("ACCESS_CODE_FROM_YOUR_BACKEND", {
-    onSuccess: (transaction) => {
-      // Prompt approved on phone, payment succeeded
-      console.log("Transaction reference:", transaction.reference);
-      alert("Payment successful! Reference: " + transaction.reference);
-    },
-    onCancel: () => {
-      alert("Transaction was cancelled.");
-    },
-    onError: (error) => {
-      alert("Error: " + error.message);
-    }
-  });
-}
-</script>
 </body>
 </html>
     <style>
