@@ -4,39 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Local Bites | Delicious Food Delivery</title>
-   <script src="https://js.paystack.co/v2/inline.js"></script>
-<script>
-function payWithPaystack() {
-  const userPhone = document.querySelector('input[type="tel"]')?.value || '';
-  const userEmail = document.querySelector('input[type="email"]')?.value || '';
-
-  if (!userEmail) {
-    alert('Please enter a valid email address.');
-    return;
-  }
-
-  const paystack = new PaystackPop();
-  paystack.newTransaction({
-    key: 'pk_live_c62cca3dc95212a44ac9647235547d4a4ff6a79d', // Use test key for development
-    email: userEmail,
-    amount: 2500, // 25.00 GHS in pesewas
-    currency: 'GHS',
-    phone: userPhone,
-    onSuccess: function(transaction) {
-      alert('Payment successful! Reference: ' + transaction.reference);
-    },
-    onCancel: function() {
-      alert('Transaction was cancelled.');
+  <style>
+    /* Styled Pay Button */
+    .btn-pay {
+      background-color: #09d261;
+      color: #ffffff;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-block;
+      transition: background-color 0.2s ease;
     }
-  });
-}
-   <div class="payment-container">
-  <!-- Authorize & Pay Button -->
-  <button type="button" class="btn btn-pay" onclick="redirectToPaystack()">
+
+    .btn-pay:hover {
+      background-color: #07b051;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. The Pay Button -->
+  <button type="button" class="btn-pay" onclick="openPaystackModal()">
     Authorize & Pay Now
   </button>
-</div>
-</script>
+
+  <!-- 2. Paystack Inline V2 SDK Script -->
+  <script src="https://js.paystack.co/v2/inline.js"></script>
+
+  <!-- 3. Trigger Function -->
+  <script>
+    function openPaystackModal() {
+      const paystack = new PaystackPop();
+
+      paystack.newTransaction({
+        key: 'pk_test_YOUR_PUBLIC_KEY_HERE', // Replace with your Paystack Public Key
+        email: 'customer@email.com',          // Customer email address
+        amount: 2500,                         // Amount in pesewas (2500 pesewas = GHS 25.00)
+        currency: 'GHS',                      // Currency set to Ghana Cedi
+        channels: ['mobile_money', 'card'],   // Enables Mobile Money & Card payment tabs
+        onSuccess: function(transaction) {
+          alert('Payment Successful! Reference: ' + transaction.reference);
+        },
+        onCancel: function() {
+          alert('Payment Window Closed.');
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
 
 
 </body>
