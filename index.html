@@ -4,31 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Local Bites | Delicious Food Delivery</title>
-    <script src="https://js.paystack.co/v1/inline.js"></script>
-    <script>// const PAYSTACK_PUBLIC_KEY = 'pk_test_830a8b25d4543859f8b4e75e6209a1b3a80acda5'; 
-function payWithPaystack(userEmail, totalAmount) {
-      // Paystack expects amount in cedis (1 GHS = 100 cedis)
-      const amountIncedis = Math.round(totalAmount * 100);
-
-      const handler = PaystackPop.setup({
-          key: PAYSTACK_PUBLIC_KEY,
-          email: userEmail,
-          amount: amountIncedis,
-          currency: 'GHS',
-          ref: 'TRX_' + Math.floor((Math.random() * 1000000000) + 1),
-          onClose: function() {
-              alert('Payment window closed.');
-          },
-          callback: function(response) {
-              alert('Payment successful! Reference: ' + response.reference);
-              cart = []; // Clear cart on success
-          }
-      });
-
-      handler.openIframe();
+   
+    <script src="https://js.paystack.co/v2/inline.js"></script>
+<script>
+  function payWithPaystack() {
+    const popup = new PaystackPop();
+    popup.newTransaction({
+      key: 'pk_test_830a8b25d4543859f8b4e75e6209a1b3a80acda5', // Only use your Public Key here
+      email: 'customer@email.com',
+      amount: 10000, // Amount in lowest currency unit (e.g. 100 GHS = 10000 pesewas)
+      onSuccess: (transaction) => {
+        alert('Payment complete! Ref: ' + transaction.reference);
+      },
+      onClose: () => {
+        alert('Transaction canceled.');
+      }
+    });
   }
 </script>
-    
     <style>
         :root {
             --primary: #ff5722;
