@@ -29,12 +29,31 @@ function payWithPaystack() {
   });
 }
 </script>
-  <!-- Bottom Checkout Section -->
-  <footer style="text-align: center; padding: 40px 20px; background-color: #f8f9fa;">
-    <button type="button" id="pay-btn" onclick="payWithPaystack()">
-      Authorize & Pay Now
-    </button>
-  </footer>
+ <div class="momo-payment-card">
+  <h3>📱 Mobile Money Payment</h3>
+
+  <div class="form-group">
+    <select id="momo-network" class="momo-input">
+      <option value="MTN">MTN MoMo</option>
+      <option value="Telecel">Telecel Cash</option>
+      <option value="AT">AT Money</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <input 
+      type="tel" 
+      id="momo-phone" 
+      class="momo-input" 
+      placeholder="Enter MoMo Number (e.g. 054XXXXXXX)"
+      required
+    />
+  </div>
+
+  <button type="button" class="pay-btn" onclick="payWithPaystack()">
+    Authorize & Pay Now
+  </button>
+</div>
 
 </body>
 </html>
