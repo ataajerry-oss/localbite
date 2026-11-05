@@ -1,61 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Bites | Delicious Food Delivery</title>
-  <style>
-    /* Styled Pay Button */
-    .btn-pay {
-      background-color: #09d261;
-      color: #ffffff;
-      padding: 12px 24px;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      display: inline-block;
-      transition: background-color 0.2s ease;
-    }
-
-    .btn-pay:hover {
-      background-color: #07b051;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- 1. The Pay Button -->
-  <button type="button" class="btn-pay" onclick="openPaystackModal()">
-    Authorize & Pay Now
-  </button>
-
-  <!-- 2. Paystack Inline V2 SDK Script -->
-  <script src="https://js.paystack.co/v2/inline.js"></script>
-
-  <!-- 3. Trigger Function -->
-  <script>
-    function openPaystackModal() {
-      const paystack = new PaystackPop();
-
-      paystack.newTransaction({
-        key: 'pk_live_c62cca3dc95212a44ac9647235547d4a4ff6a79d', // Replace with your Paystack Public Key
-        email: 'customer@email.com',          // Customer email address
-        amount: 2500,// 25.00 GHS in pesewas                          // Amount in pesewas (2500 pesewas = GHS 25.00)
-        currency: 'GHS',                      // Currency set to Ghana Cedi
-        channels: ['mobile_money', 'card'],   // Enables Mobile Money & Card payment tabs
-        onSuccess: function(transaction) {
-          alert('Payment Successful! Reference: ' + transaction.reference);
-        },
-        onCancel: function() {
-          alert('Payment Window Closed.');
-        }
-      });
-    }
-  </script>
-</body>
-</html>
+    <title>Local Bites | Mobile Money Checkout</title>
     <style>
         :root {
             --primary: #ff5722;
@@ -63,6 +12,7 @@
             --secondary: #4caf50;
             --dark: #333;
             --light: #f4f4f4;
+            --danger: #e53935;
         }
 
         * {
@@ -108,7 +58,7 @@
 
         .hero {
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1000') center/cover;
-            height: 300px;
+            height: 250px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -118,7 +68,7 @@
             padding: 1rem;
         }
 
-        .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .hero h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
 
         .container {
             max-width: 1200px;
@@ -131,12 +81,11 @@
 
         @media (max-width: 768px) {
             .container { grid-template-columns: 1fr; }
-            .cart-panel { position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000; max-height: 50vh; overflow-y: auto; }
         }
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1.5rem;
         }
 
@@ -151,11 +100,10 @@
             justify-content: space-between;
         }
 
-        .food-card:hover { transform: translateY(-5px); }
-
+        .food-card:hover { transform: translateY(-3px); }
         .food-info { padding: 1rem; }
-        .food-title { font-size: 1.2rem; margin-bottom: 0.5rem; text-transform: capitalize;}
-        .food-price { color: var(--primary); font-weight: bold; font-size: 1.1rem; margin-bottom: 1rem;}
+        .food-title { font-size: 1.1rem; margin-bottom: 0.5rem; text-transform: capitalize; font-weight: bold; }
+        .food-price { color: var(--primary); font-weight: bold; font-size: 1rem; margin-bottom: 1rem; }
 
         .btn {
             background: var(--primary);
@@ -178,8 +126,38 @@
             height: fit-content;
         }
 
-        .cart-title { margin-bottom: 1rem; border-bottom: 2px solid var(--light); padding-bottom: 0.5rem;}
-        .cart-item { display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.95rem;}
+        .cart-title { margin-bottom: 1rem; border-bottom: 2px solid var(--light); padding-bottom: 0.5rem; }
+        
+        .cart-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 0.8rem; 
+            font-size: 0.9rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .btn-remove {
+            background: none;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            padding: 3px 8px;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-remove:hover {
+            background: var(--danger);
+            color: white;
+        }
+
         .cart-total { font-size: 1.2rem; font-weight: bold; margin-top: 1rem; padding-top: 1rem; border-top: 2px dashed var(--light); display: flex; justify-content: space-between;}
 
         .momo-section {
@@ -190,19 +168,15 @@
             border: 1px solid #ffe082;
         }
 
-        .momo-title { color: #ffb300; font-weight: bold; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 5px;}
+        .momo-title { color: #d84315; font-weight: bold; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 5px; }
         .input-field { width: 100%; padding: 0.6rem; margin-bottom: 0.8rem; border: 1px solid #ccc; border-radius: 4px; }
-        .select-field { width: 100%; padding: 0.6rem; margin-bottom: 0.8rem; border: 1px solid #ccc; border-radius: 4px; background: white;}
         
-        .btn-pay { background: var(--secondary); }
+        .btn-pay { background: var(--secondary); font-size: 1rem; }
         .btn-pay:hover { background: #43a047; }
-        
-        /* Modal Style */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 2000; }
-        .modal-content { background: white; padding: 2rem; border-radius: 8px; text-align: center; max-width: 400px; width: 90%; }
-        .success-icon { font-size: 3rem; color: var(--secondary); margin-bottom: 1rem; }
-      
     </style>
+
+    <!-- Paystack Inline V2 SDK Script -->
+    <script src="https://js.paystack.co/v2/inline.js"></script>
 </head>
 <body>
 
@@ -217,13 +191,11 @@
     </div>
 
     <div class="container">
-        <!-- Menu Items -->
+        <!-- Menu Items Grid -->
         <div>
             <h2>Our Menu</h2>
             <br>
-            <div class="menu-grid" id="menu-container">
-                <!-- Dynamically generated via JS -->
-            </div>
+            <div class="menu-grid" id="menu-container"></div>
         </div>
 
         <!-- Checkout / Cart Panel -->
@@ -238,32 +210,18 @@
                 <span>GH₵ <span id="cart-total-price">0.00</span></span>
             </div>
 
-            <!-- MoMo Payment Section -->
+            <!-- Mobile Money Checkout Form -->
             <div class="momo-section" id="momo-checkout" style="display: none;">
-                <div class="momo-title">📱 Mobile Money Payment</div>
-                <select class="select-field" id="momo-network">
-                    <option value="MTN">MTN MoMo</option>
-                    <option value="Telecel">Telecel Cash</option>
-                    <option value="AT">AT Money</option>
-                </select>
-                <input type="tel" class="input-field" id="momo-number" placeholder="Enter MoMo Number (e.g. 054XXXXXXX)" required>
-                <button class="btn btn-pay" onclick="processPayment()">Authorize & Pay Now</button>
+                <div class="momo-title">📱 Customer Information</div>
+                <input type="email" class="input-field" id="customer-email" placeholder="Email address (e.g. user@gmail.com)" required>
+                <input type="tel" class="input-field" id="momo-number" placeholder="MoMo Number (e.g. 0553619468)" required>
+                <button type="button" class="btn btn-pay" onclick="processPaystackPayment()">Authorize & Pay Now</button>
             </div>
         </div>
     </div>
 
-    <!-- Success Popup Modal -->
-    <div class="modal" id="success-modal">
-        <div class="modal-content">
-            <div class="success-icon">✓</div>
-            <h3>Payment Prompt Sent!</h3>
-            <p style="margin: 1rem 0; color: #555;">Please check your phone for the MoMo PIN prompt to complete your payment of <strong>GH₵ <span id="modal-amount">0.00</span></strong>.</p>
-            <button class="btn" onclick="closeModal()">OK, Got it</button>
-        </div>
-    </div>
-
     <script>
-        // Menu list with all user specified foods
+        // Menu list
         const menuItems = [
             { id: 1, name: 'jollof rice', price: 1.00 },
             { id: 2, name: 'plain rice', price: 25.00 },
@@ -307,7 +265,20 @@
             updateCartUI();
         }
 
-        // Update Cart Interface
+        // Remove from Cart Logic
+        function removeFromCart(id) {
+            const index = cart.findIndex(c => c.id === id);
+            if (index !== -1) {
+                if (cart[index].quantity > 1) {
+                    cart[index].quantity -= 1; // Decrease quantity if more than 1
+                } else {
+                    cart.splice(index, 1); // Remove item completely if quantity is 1
+                }
+            }
+            updateCartUI();
+        }
+
+        // Update Cart UI
         function updateCartUI() {
             const listContainer = document.getElementById('cart-items-list');
             const totalCountSpan = document.getElementById('cart-count');
@@ -333,8 +304,11 @@
                 const div = document.createElement('div');
                 div.className = 'cart-item';
                 div.innerHTML = `
-                    <span>${item.name} (x${item.quantity})</span>
-                    <span>GH₵ ${(item.price * item.quantity).toFixed(2)}</span>
+                    <div class="cart-item-details">
+                        <strong>${item.name}</strong> (x${item.quantity})<br>
+                        <span style="color: #666;">GH₵ ${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                    <button class="btn-remove" onclick="removeFromCart(${item.id})">Remove</button>
                 `;
                 listContainer.appendChild(div);
             });
@@ -344,27 +318,53 @@
             momoCheckout.style.display = 'block';
         }
 
-        // Simulate Mobile Money Payment Processing
-        function processPayment() {
+        // Paystack Real Mobile Money Integration
+        function processPaystackPayment() {
+            const emailInput = document.getElementById('customer-email').value;
             const phoneInput = document.getElementById('momo-number').value;
-            const totalPrice = document.getElementById('cart-total-price').innerText;
+            const totalPrice = parseFloat(document.getElementById('cart-total-price').innerText);
+
+            if (!emailInput || !emailInput.includes('@')) {
+                alert('Please enter a valid email address.');
+                return;
+            }
 
             if (!phoneInput || phoneInput.length < 10) {
                 alert('Please enter a valid Mobile Money number.');
                 return;
             }
 
-            document.getElementById('modal-amount').innerText = totalPrice;
-            document.getElementById('success-modal').style.display = 'flex';
-        }
+            // Convert amount to pesewas (1 GH₵ = 100 pesewas)
+            const amountInPesewas = Math.round(totalPrice * 100);
 
-        function closeModal() {
-            document.getElementById('success-modal').style.display = 'none';
-            // Reset Cart after successful simulated purchase
-            cart = [];
-            document.getElementById('momo-number').value = '';
-            updateCartUI();
-         
+            const paystack = new PaystackPop();
+            paystack.newTransaction({
+                key: 'pk_live_c62cca3dc95212a44ac9647235547d4a4ff6a79d', // Your Paystack Public Key
+                email: emailInput,
+                amount: amountInPesewas,
+                currency: 'GHS',
+                channels: ['mobile_money', 'card'],
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "Mobile Number",
+                            variable_name: "mobile_number",
+                            value: phoneInput
+                        }
+                    ]
+                },
+                onSuccess: function(transaction) {
+                    alert('Payment Successful! Reference: ' + transaction.reference);
+                    // Reset Cart
+                    cart = [];
+                    document.getElementById('momo-number').value = '';
+                    document.getElementById('customer-email').value = '';
+                    updateCartUI();
+                },
+                onCancel: function() {
+                    alert('Payment process was cancelled.');
+                }
+            });
         }
     </script>
 </body>
